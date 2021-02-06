@@ -1,0 +1,19 @@
+- hosts: idempotance
+  tasks:
+          - name: "install httpd"
+            package:
+                    name: "httpd"
+                    state: present
+
+          - name: creating web pages
+            copy:
+                    dest: "/var/www/html/sk.html"
+                    content: "<h2>Idempotance</h2>"
+            notify: changes
+
+  handlers:
+
+          - name: "changes"
+            service:
+                    name: "httpd"
+                    state: restarted
